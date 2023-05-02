@@ -10,7 +10,7 @@ export default function Item({element, field}) {
             className="container_item"
             onDragStart = {(e) => dragStartHandler(e, element, field)} 
             onDragOver = {(e) => dragOverHandler(e, element)}
-            onDrop = {(e) => dropHandler(e, element)}
+            onDrop = {(e) => dropHandler(e, element, field)}
         >
                 <Card 
                     element = {element}

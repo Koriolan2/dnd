@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 export const GameContext = createContext();
 
@@ -19,19 +19,24 @@ export default function Context(props) {
 
     const [startGameLevel, setStartGameLevel] = useState(s); // масив деталей   
     const [endGameLevel, setEndGameLevel] = useState(e); // фінальний масив
+
     const [currentElement, setCurrentElement] = useState(null) // карта, яку тягнемо
-    const [activeField, setActiveField] = useState(null); // поле, де почато перетягування
+
+    const [startActiveField, setStartActiveField] = useState(null); // поле, де почато перетягування
+    const [endActiveField, setEndActiveField] = useState(null); // поле, де завершено перетягування
+
     const [currentFieldElem, setCurrentFieldElem] = useState(null) //клітинка, звіділя тягнемо
     const [targetFieldElem, setTargetFieldElem] = useState(null) //клітинка, де кинули
 
-    console.log('поле, де почато перетягування ' + activeField);
-    console.log('картка, яку перетягуємо ' + currentElement);
-    console.log('клітинка, звідклія тягнемо ' + currentFieldElem);
-    console.log('клітинка, куди тягнемо ' + targetFieldElem);
+    // console.log('поле, де почато перетягування ' + startActiveField);
+    // console.log('поле, де завершено перетягування ' + endActiveField);
+    // console.log('картка, яку перетягуємо ' + currentElement);
+    // console.log('клітинка, звідклія тягнемо ' + currentFieldElem);
+    // console.log('клітинка, куди тягнемо ' + targetFieldElem);
 
     function dragStartHandler(e, elem, field) {
         setCurrentElement(elem.order);
-        setActiveField(field);
+        setStartActiveField(field);
         setCurrentFieldElem(elem.id)
     }
 
@@ -41,18 +46,20 @@ export default function Context(props) {
         
     }
 
-    function dropHandler(e, elem){
+    function dropHandler(e, elem, field){
         e.preventDefault();
+        setEndActiveField(field);        
+    }
 
-        
-        if (activeField === 'start'){
+    useEffect(() => {
+        if (startActiveField === 'start' && endActiveField === 'end'){
             console.log('Збираємо картинку');
+
         }
-        if (activeField === 'end') {
+        if (startActiveField === 'end' && endActiveField === 'end') {
             console.log('Сортуємо картинки');
         }
-        
-    }
+    });
 
     const value = {
         startGameLevel,
