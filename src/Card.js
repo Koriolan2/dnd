@@ -11,7 +11,8 @@ export default function Card({element, field}) {
             <div 
                 className = "card"
                 draggable
-                onDragStart = {(e) => dragStartHandler(e, element.order, field)}
+                
+                
                 
             > {element.order} </div>
         );

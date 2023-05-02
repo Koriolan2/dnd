@@ -19,26 +19,39 @@ export default function Context(props) {
 
     const [startGameLevel, setStartGameLevel] = useState(s); // масив деталей   
     const [endGameLevel, setEndGameLevel] = useState(e); // фінальний масив
-    const [currentElement, setCurrentElement] = useState(null)
-    const [activeField, setActiveField] = useState(null);
+    const [currentElement, setCurrentElement] = useState(null) // карта, яку тягнемо
+    const [activeField, setActiveField] = useState(null); // поле, де почато перетягування
+    const [currentFieldElem, setCurrentFieldElem] = useState(null) //клітинка, звіділя тягнемо
+    const [targetFieldElem, setTargetFieldElem] = useState(null) //клітинка, де кинули
 
-    // console.log('поле, де почато перетягування перетягуємо ' + activeField);
-    // console.log('картка, яку перетягуємо ' + currentElement);
+    console.log('поле, де почато перетягування ' + activeField);
+    console.log('картка, яку перетягуємо ' + currentElement);
+    console.log('клітинка, звідклія тягнемо ' + currentFieldElem);
+    console.log('клітинка, куди тягнемо ' + targetFieldElem);
 
     function dragStartHandler(e, elem, field) {
-        setCurrentElement(elem);
+        setCurrentElement(elem.order);
         setActiveField(field);
+        setCurrentFieldElem(elem.id)
     }
 
     function dragOverHandler(e, elem) {
         e.preventDefault();
+        setTargetFieldElem(elem.id);
+        
+    }
 
+    function dropHandler(e, elem){
+        e.preventDefault();
+
+        
         if (activeField === 'start'){
             console.log('Збираємо картинку');
         }
         if (activeField === 'end') {
             console.log('Сортуємо картинки');
         }
+        
     }
 
     const value = {
@@ -46,6 +59,7 @@ export default function Context(props) {
         endGameLevel,
         dragStartHandler,
         dragOverHandler,
+        dropHandler
     }
     return (
         <GameContext.Provider value = {value}>        
